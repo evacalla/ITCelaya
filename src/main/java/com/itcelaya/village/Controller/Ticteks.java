@@ -1,6 +1,7 @@
 package com.itcelaya.village.Controller;
 
 import com.itcelaya.village.Exception.ResourceNotFoundException;
+import com.itcelaya.village.Model.Enum.Status;
 import com.itcelaya.village.Model.Function;
 import com.itcelaya.village.Model.Seat;
 import com.itcelaya.village.Model.Ticket;
@@ -36,8 +37,11 @@ public class Ticteks {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Ticket> getAllTicket () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(auth.getName());
-        return ticketRepository.findByUser(user.id);
+        /*
+            User user = userRepository.findByUsername(auth.getName());
+            ticketRepository.findByUser(user.id);
+         */
+        return ticketRepository.findAll();
     }
 
     @RequestMapping(value = "/function/{functionId}/seat/{seatId}", method = RequestMethod.POST)
@@ -45,6 +49,8 @@ public class Ticteks {
 
         Function function = functionRepository.findById(functionId).orElseThrow(() -> new ResourceNotFoundException("Function", "id", functionId));;
         Seat seat = seatRepository.findById(seatId).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
+
+        seat.status = Status.OCCUPIED;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -73,11 +79,12 @@ public class Ticteks {
 
         ticket.function = function;
         ticket.seat = seat;
+
         return ticketRepository.save(ticket);
 
     }
 
-    @RequestMapping(value = "{/id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteTicket (@PathVariable("id") Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
         ticketRepository.delete(ticket);

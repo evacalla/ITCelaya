@@ -10,14 +10,15 @@ public class Ticket {
     public Long id;
 
     @OneToOne
-    @JoinColumn(name =  "id")
+    @JoinColumn(name =  "function")
     public Function function;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user")
     public User user;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "seat")
     public Seat seat;
+
 }

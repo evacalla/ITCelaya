@@ -10,10 +10,10 @@ public class Function {
     public Long id;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "room")
     public Room room;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "version")
     public Version version;
 }
