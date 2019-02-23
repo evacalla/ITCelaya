@@ -5,8 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -21,7 +24,7 @@ public class Swagger extends WebMvcConfigurationSupport {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths((Predicates.not(PathSelectors.regex("/error.*"))))
-                .build();
+                .build().apiInfo(info());
     }
     
     @Override
@@ -32,4 +35,18 @@ public class Swagger extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
+    private ApiInfo info() {
+        return new ApiInfoBuilder().title("Cinema REST API")
+                .description("Trabajo practico para ITCelaya consiste en una aplicación Rest de reserva de cine, " +
+                        "se utilizo para el trabajo Spring Boot " +
+                        " MySQL + Hibernate + Swagger, tambien se utilizo JWT para la identificación de los Usuarios.")
+                .contact(new Contact("Enzo Vacalla Gismondi", "https://github.com/evacalla", "evacalla@gmail.com"))
+                .license("Apache 2.0")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                .version("1.0.0")
+                .build();
+    }
+
+    
 }
