@@ -10,11 +10,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class Users {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Users(UserRepository userRepository,
